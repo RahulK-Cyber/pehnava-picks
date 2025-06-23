@@ -89,6 +89,22 @@
       cursor: pointer;
       border-radius: 50%;
     }
+    #upi-instructions {
+      display: none;
+      background: #fff;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      padding: 1rem;
+      border: 2px solid #800020;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+    #upi-instructions img {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -115,28 +131,54 @@
     </div>
     <div class="shop-grid" id="product-list">
       <div class="product" data-category="kurti">
-        <img src="https://via.placeholder.com/200" alt="Kurti">
-        <h3>Kurti Set</h3>
-        <p>₹1,499</p>
-        <button onclick="addToCart('Kurti Set', 1499)">Add to Cart</button>
+        <img src="https://via.placeholder.com/200" alt="Kurti 1">
+        <h3>Floral Kurti</h3>
+        <p>₹1,299</p>
+        <button onclick="addToCart('Floral Kurti', 1299)">Add to Cart</button>
+      </div>
+      <div class="product" data-category="kurti">
+        <img src="https://via.placeholder.com/200" alt="Kurti 2">
+        <h3>Festive Kurti</h3>
+        <p>₹1,599</p>
+        <button onclick="addToCart('Festive Kurti', 1599)">Add to Cart</button>
       </div>
       <div class="product" data-category="saree">
-        <img src="https://via.placeholder.com/200" alt="Saree">
-        <h3>Silk Saree</h3>
-        <p>₹2,199</p>
-        <button onclick="addToCart('Silk Saree', 2199)">Add to Cart</button>
+        <img src="https://via.placeholder.com/200" alt="Saree 1">
+        <h3>Banarasi Saree</h3>
+        <p>₹2,799</p>
+        <button onclick="addToCart('Banarasi Saree', 2799)">Add to Cart</button>
+      </div>
+      <div class="product" data-category="saree">
+        <img src="https://via.placeholder.com/200" alt="Saree 2">
+        <h3>Chiffon Saree</h3>
+        <p>₹1,899</p>
+        <button onclick="addToCart('Chiffon Saree', 1899)">Add to Cart</button>
       </div>
       <div class="product" data-category="lehenga">
-        <img src="https://via.placeholder.com/200" alt="Lehenga">
-        <h3>Bridal Lehenga</h3>
-        <p>₹3,999</p>
-        <button onclick="addToCart('Bridal Lehenga', 3999)">Add to Cart</button>
+        <img src="https://via.placeholder.com/200" alt="Lehenga 1">
+        <h3>Red Bridal Lehenga</h3>
+        <p>₹4,999</p>
+        <button onclick="addToCart('Red Bridal Lehenga', 4999)">Add to Cart</button>
+      </div>
+      <div class="product" data-category="lehenga">
+        <img src="https://via.placeholder.com/200" alt="Lehenga 2">
+        <h3>Pastel Lehenga</h3>
+        <p>₹3,499</p>
+        <button onclick="addToCart('Pastel Lehenga', 3499)">Add to Cart</button>
       </div>
     </div>
   </section>
 
   <div id="cart"></div>
   <button id="cart-toggle" onclick="toggleCart()">🛒</button>
+
+  <div id="upi-instructions">
+    <h3>Pay via UPI</h3>
+    <p>Scan the QR code with any UPI app or pay to: <strong>dhotrahul962@okhdfcbank</strong></p>
+    <img src="https://via.placeholder.com/250x250.png?text=UPI+QR+Code" alt="UPI QR Code" />
+    <p>After payment, send the screenshot to our WhatsApp: <a href="https://wa.me/9588516912" target="_blank">Click here</a></p>
+    <button onclick="document.getElementById('upi-instructions').style.display='none'">Close</button>
+  </div>
 
   <footer>
     <p>&copy; 2025 Pehnava Picks. All rights reserved.</p>
@@ -146,11 +188,7 @@
     function filterProducts(category) {
       const products = document.querySelectorAll('.product');
       products.forEach(p => {
-        if (category === 'all' || p.dataset.category === category) {
-          p.style.display = 'block';
-        } else {
-          p.style.display = 'none';
-        }
+        p.style.display = category === 'all' || p.dataset.category === category ? 'block' : 'none';
       });
     }
 
@@ -175,18 +213,11 @@
         total += item.price;
       });
       cartBox.innerHTML += `<hr><strong>Total: ₹${total}</strong>`;
-      cartBox.innerHTML += '<br><button onclick="checkout()">Checkout via WhatsApp</button>';
+      cartBox.innerHTML += '<br><button onclick="showUPI()">Pay via UPI</button>';
     }
 
-    function checkout() {
-      let message = 'Hello, I want to order:\n';
-      cart.forEach(item => {
-        message += `- ${item.product}: ₹${item.price}\n`;
-      });
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-      message += `Total: ₹${total}`;
-      const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/987654321?text=${encodedMessage}`, '_blank');
+    function showUPI() {
+      document.getElementById('upi-instructions').style.display = 'block';
     }
   </script>
 </body>
