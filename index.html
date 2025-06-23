@@ -312,7 +312,79 @@
         result.style.color = 'red';
         result.textContent = '❌ Sorry, delivery is not available here yet.';
       }
+    }<section id="order">
+  <h2>Confirm Order</h2>
+  <form id="order-form" onsubmit="sendWhatsAppOrder(event)">
+    <label>
+      <input type="checkbox" id="payment-confirm" required>
+      I have completed the payment via UPI
+    </label>
+    <br><br>
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="text" id="address" placeholder="Full Delivery Address" required />
+    <input type="tel" id="phone" placeholder="Mobile Number" required />
+    <button type="submit">Place Order on WhatsApp</button>
+<section id="payment">
+  <h2 style="text-align:center; margin-top:2rem;">Pay via UPI</h2>
+  <div style="text-align:center; padding: 1rem;">
+    <img src="WhatsApp Image 2025-06-23 at 6.05.37 PM.jpeg" alt="UPI QR Code" style="width:280px; border:1px solid #ccc; border-radius:8px;">
+    <p style="margin-top: 0.5rem; font-weight: bold;">Scan to pay UPI ID: <br><code>dhotrahul962@okhdfcbank</code></p>
+    <p style="color:#800020;">Once payment is done, confirm your order below 👇</p>
+  </div>
+</section>
+
+</footer>
+
+  <script>
+    const cart = [];
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      updateCart();
     }
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const totalEl = document.getElementById('total');
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        cartItems.innerHTML += `<p>${item.product} - ₹${item.price}</p>`;
+        total += item.price;
+      });
+      totalEl.textContent = total;
+    }
+    function filterProducts(category) {
+      document.querySelectorAll('.product').forEach(p => {
+        p.style.display = category === 'all' || p.dataset.category === category ? 'block' : 'none';
+      });
+    }
+    function sendWhatsAppOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+      if (!cart.length) return alert("Your cart is empty!");
+      let message = `New Order from Pehnava Picks:%0A👤 ${name}%0A📍 ${address}%0A📱 ${phone}%0A%0A🛍️ Items:%0A`;
+      let total = 0;
+      cart.forEach(i => { message += `- ${i.product}: ₹${i.price}%0A`; total += i.price; });
+      message += `%0A💰 Total: ₹${total}`;
+      window.open(`https://wa.me/919588516912?text=${message}`, '_blank');
+    }
+    const serviceablePincodes = ['110001', '160022', '133301', '122001', '201301', '400001'];
+    function checkPincode() {
+      const pin = document.getElementById('pincode').value.trim();
+      const result = document.getElementById('pincode-result');
+      if (serviceablePincodes.includes(pin)) {
+        result.style.color = 'green';
+        result.textContent = '✅ Yes, we deliver to this pincode!';
+      } else {
+        result.style.color = 'red';
+        result.textContent = '❌ Sorry, delivery is not available here yet.';
+      }
+    }
+  </script>
+</body>
+</html>
+
   </script>
 </body>
 </html>
