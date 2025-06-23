@@ -3,18 +3,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pehnava Picks - Order Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pehnava Picks - Stylish Clothing</title>
   <style>
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #fefbf6;
+      background-color: #fefbf6;
       color: #333;
+      margin: 0;
     }
     header, footer {
       background-color: #800020;
-      color: white;
+      color: #fff;
       text-align: center;
       padding: 1rem;
     }
@@ -30,19 +30,24 @@
       color: #800020;
       font-weight: bold;
     }
-    section {
+    .container {
       padding: 2rem;
     }
     .shop-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 2rem;
     }
     .product {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      background: #fff;
+      background: white;
+      border: 1px solid #ddd;
       text-align: center;
+      padding: 1rem;
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
     }
     .product button {
       background-color: #800020;
@@ -52,70 +57,63 @@
       margin-top: 0.5rem;
       cursor: pointer;
     }
-    #cart {
-      margin-top: 2rem;
-      border-top: 2px solid #ccc;
-      padding-top: 1rem;
+    #pincode-checker {
+      margin-top: 3rem;
+      background: #fff5f8;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid #f0c;
     }
-    form input, form textarea {
-      width: 100%;
+    #pincode-checker input {
       padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
+      width: 180px;
+      margin-right: 0.5rem;
     }
-    form button {
-      background-color: #800020;
-      color: white;
-      border: none;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
+    #pincode-result {
+      margin-top: 1rem;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Pehnava Picks</h1>
-    <p>Place Your Order Instantly</p>
+    <p>Stylish. Affordable. Indian Ethnic Wear.</p>
   </header>
 
-  <section id="shop">
-    <h2>Products</h2>
-    <div class="shop-grid" id="product-list">
+  <nav>
+    <a href="#shop">Shop</a>
+    <a href="#delivery">Delivery</a>
+  </nav>
+
+  <section class="container" id="shop">
+    <h2>Our Collection</h2>
+    <div class="shop-grid">
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Kurti">
+        <img src="https://i.imgur.com/zwyIjU8.jpg" alt="Floral Kurti">
         <h3>Floral Kurti</h3>
         <p>₹1,299</p>
-        <button onclick="addToCart('Floral Kurti', 1299)">Add to Cart</button>
+        <button>Add to Cart</button>
       </div>
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Saree">
+        <img src="https://i.imgur.com/S0tPuA4.jpg" alt="Silk Saree">
         <h3>Silk Saree</h3>
         <p>₹2,199</p>
-        <button onclick="addToCart('Silk Saree', 2199)">Add to Cart</button>
+        <button>Add to Cart</button>
       </div>
       <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Lehenga">
+        <img src="https://i.imgur.com/37P5UKP.jpg" alt="Bridal Lehenga">
         <h3>Bridal Lehenga</h3>
         <p>₹4,999</p>
-        <button onclick="addToCart('Bridal Lehenga', 4999)">Add to Cart</button>
+        <button>Add to Cart</button>
       </div>
     </div>
 
-    <div id="cart">
-      <h2>Your Cart</h2>
-      <div id="cart-items"></div>
-      <hr>
-      <p><strong>Total: ₹<span id="total">0</span></strong></p>
-    </div>
-
-    <div id="checkout">
-      <h2>Confirm Your Order</h2>
-      <form id="order-form" onsubmit="sendWhatsAppOrder(event)">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <input type="text" id="address" placeholder="Delivery Address" required />
-        <input type="tel" id="phone" placeholder="Mobile Number" required />
-        <button type="submit">Place Order on WhatsApp</button>
-      </form>
+    <div id="pincode-checker">
+      <h3>Check Delivery Availability</h3>
+      <input type="text" id="pincode" placeholder="Enter Pincode">
+      <button onclick="checkPincode()">Check</button>
+      <div id="pincode-result"></div>
     </div>
   </section>
 
@@ -124,51 +122,18 @@
   </footer>
 
   <script>
-    const cart = [];
+    const serviceablePincodes = ['110001', '160022', '133301', '122001', '201301', '400001', '125076'];
 
-    function addToCart(product, price) {
-      cart.push({ product, price });
-      updateCart();
-    }
-
-    function updateCart() {
-      const cartItems = document.getElementById('cart-items');
-      const totalElement = document.getElementById('total');
-      cartItems.innerHTML = '';
-      let total = 0;
-
-      cart.forEach(item => {
-        cartItems.innerHTML += `<p>${item.product} - ₹${item.price}</p>`;
-        total += item.price;
-      });
-
-      totalElement.textContent = total;
-    }
-
-    function sendWhatsAppOrder(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const address = document.getElementById('address').value;
-      const phone = document.getElementById('phone').value;
-
-      if (!cart.length) {
-        alert("Your cart is empty!");
-        return;
+    function checkPincode() {
+      const pin = document.getElementById('pincode').value.trim();
+      const result = document.getElementById('pincode-result');
+      if (serviceablePincodes.includes(pin)) {
+        result.style.color = 'green';
+        result.textContent = '✅ Yes, we deliver to this pincode!';
+      } else {
+        result.style.color = 'red';
+        result.textContent = '❌ Sorry, delivery is not available here yet.';
       }
-
-      let message = `New Order from Pehnava Picks:\n\n`;
-      message += `👤 Name: ${name}\n📍 Address: ${address}\n📱 Phone: ${phone}\n\n🛍️ Order Details:\n`;
-
-      let total = 0;
-      cart.forEach(item => {
-        message += `- ${item.product}: ₹${item.price}\n`;
-        total += item.price;
-      });
-
-      message += `\n💰 Total: ₹${total}\n\nPlease confirm the order.`;
-
-      const encodedMsg = encodeURIComponent(message);
-      window.open(`https://wa.me/9588516912?text=${encodedMsg}`, '_blank');
     }
   </script>
 </body>
