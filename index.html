@@ -12,11 +12,11 @@
       background: #fefbf6;
       color: #333;
     }
-    header {
+    header, footer {
       background-color: #800020;
       color: white;
-      padding: 1rem;
       text-align: center;
+      padding: 1rem;
     }
     nav {
       background-color: #f4e2d8;
@@ -33,6 +33,19 @@
     section {
       padding: 2rem;
     }
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .filters button {
+      padding: 0.5rem 1rem;
+      background: #800020;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
     .shop-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -44,24 +57,37 @@
       background: #fff;
       text-align: center;
     }
-    footer {
-      background-color: #800020;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-    form input, form textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-    }
-    form button {
+    .product button {
+      margin-top: 0.5rem;
       background-color: #800020;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem;
       cursor: pointer;
+    }
+    #cart {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      width: 250px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    #cart-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #800020;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      cursor: pointer;
+      border-radius: 50%;
     }
   </style>
 </head>
@@ -79,80 +105,89 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <section id="home">
-    <h2>Welcome to Pehnava Picks</h2>
-    <p>Explore the latest trends in ethnic and contemporary fashion, handpicked for the modern wardrobe.</p>
-  </section>
-
   <section id="shop">
-    <h2>Shop</h2>
-    <div class="shop-grid">
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 1">
+    <h2>Shop by Category</h2>
+    <div class="filters">
+      <button onclick="filterProducts('all')">All</button>
+      <button onclick="filterProducts('kurti')">Kurti</button>
+      <button onclick="filterProducts('saree')">Saree</button>
+      <button onclick="filterProducts('lehenga')">Lehenga</button>
+    </div>
+    <div class="shop-grid" id="product-list">
+      <div class="product" data-category="kurti">
+        <img src="https://via.placeholder.com/200" alt="Kurti">
         <h3>Kurti Set</h3>
         <p>₹1,499</p>
+        <button onclick="addToCart('Kurti Set', 1499)">Add to Cart</button>
       </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 2">
-        <h3>Saree</h3>
+      <div class="product" data-category="saree">
+        <img src="https://via.placeholder.com/200" alt="Saree">
+        <h3>Silk Saree</h3>
         <p>₹2,199</p>
+        <button onclick="addToCart('Silk Saree', 2199)">Add to Cart</button>
       </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200" alt="Product 3">
-        <h3>Lehenga</h3>
+      <div class="product" data-category="lehenga">
+        <img src="https://via.placeholder.com/200" alt="Lehenga">
+        <h3>Bridal Lehenga</h3>
         <p>₹3,999</p>
+        <button onclick="addToCart('Bridal Lehenga', 3999)">Add to Cart</button>
       </div>
     </div>
   </section>
 
-  <section id="about">
-    <h2>About Us</h2>
-    <p>Pehnava Picks is your go-to destination for premium ethnic wear. From traditional elegance to modern fusion, we bring you carefully selected outfits that match your vibe and occasion.</p>
-  </section>
-
-  <section id="gallery">
-    <h2>Gallery</h2>
-    <div class="shop-grid">
-      <img src="https://via.placeholder.com/200" alt="Gallery 1">
-      <img src="https://via.placeholder.com/200" alt="Gallery 2">
-      <img src="https://via.placeholder.com/200" alt="Gallery 3">
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <form id="contact-form">
-      <input type="text" name="from_name" placeholder="Your Name" required>
-      <input type="email" name="reply_to" placeholder="Your Email" required>
-      <textarea name="message" rows="5" placeholder="Your Message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+  <div id="cart"></div>
+  <button id="cart-toggle" onclick="toggleCart()">🛒</button>
 
   <footer>
     <p>&copy; 2025 Pehnava Picks. All rights reserved.</p>
   </footer>
-  
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script type="text/javascript">
-  (function() {
-    emailjs.init("qaRTI30mrmIp5OMzA");
-  })();
 
-  function sendEmail(e) {
-    e.preventDefault();
-    emailjs.sendForm('service_uxpob5r', 'template_9sshsjf', this)
-      .then(function() {
-        alert('Message sent successfully!');
-      }, function(error) {
-        alert('Failed to send message. Please try again.');
+  <script>
+    function filterProducts(category) {
+      const products = document.querySelectorAll('.product');
+      products.forEach(p => {
+        if (category === 'all' || p.dataset.category === category) {
+          p.style.display = 'block';
+        } else {
+          p.style.display = 'none';
+        }
       });
-  }
+    }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('contact-form').addEventListener('submit', sendEmail);
-  });
-</script>
+    const cart = [];
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      alert(product + ' added to cart!');
+      updateCart();
+    }
 
+    function toggleCart() {
+      const cartBox = document.getElementById('cart');
+      cartBox.style.display = cartBox.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function updateCart() {
+      const cartBox = document.getElementById('cart');
+      cartBox.innerHTML = '<h4>Your Cart</h4>';
+      let total = 0;
+      cart.forEach(item => {
+        cartBox.innerHTML += `<p>${item.product} - ₹${item.price}</p>`;
+        total += item.price;
+      });
+      cartBox.innerHTML += `<hr><strong>Total: ₹${total}</strong>`;
+      cartBox.innerHTML += '<br><button onclick="checkout()">Checkout via WhatsApp</button>';
+    }
+
+    function checkout() {
+      let message = 'Hello, I want to order:\n';
+      cart.forEach(item => {
+        message += `- ${item.product}: ₹${item.price}\n`;
+      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      message += `Total: ₹${total}`;
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/987654321?text=${encodedMessage}`, '_blank');
+    }
+  </script>
 </body>
 </html>
