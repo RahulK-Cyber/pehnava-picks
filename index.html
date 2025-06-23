@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pehnava Picks</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fefbf6;
+      color: #333;
+    }
+    header {
+      background-color: #800020;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #f4e2d8;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #800020;
+      font-weight: bold;
+    }
+    section {
+      padding: 2rem;
+    }
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .product {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      background: #fff;
+      text-align: center;
+    }
+    footer {
+      background-color: #800020;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pehnava Picks</h1>
+    <p>Elevate Your Style with Our Handpicked Fashion</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#about">About Us</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="home">
+    <h2>Welcome to Pehnava Picks</h2>
+    <p>Explore the latest trends in ethnic and contemporary fashion, handpicked for the modern wardrobe.</p>
+  </section>
+
+  <section id="shop">
+    <h2>Shop</h2>
+    <div class="shop-grid">
+      <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Product 1">
+        <h3>Kurti Set</h3>
+        <p>₹1,499</p>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Product 2">
+        <h3>Saree</h3>
+        <p>₹2,199</p>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/200" alt="Product 3">
+        <h3>Lehenga</h3>
+        <p>₹3,999</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Pehnava Picks is your go-to destination for premium ethnic wear. From traditional elegance to modern fusion, we bring you carefully selected outfits that match your vibe and occasion.</p>
+  </section>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="shop-grid">
+      <img src="https://via.placeholder.com/200" alt="Gallery 1">
+      <img src="https://via.placeholder.com/200" alt="Gallery 2">
+      <img src="https://via.placeholder.com/200" alt="Gallery 3">
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Pehnava Picks. All rights reserved.</p>
+  </footer>
+</body>
+</html>
